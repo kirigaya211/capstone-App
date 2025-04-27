@@ -1,74 +1,123 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+// Removed unused import
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const chats = [
+  {
+    id: "1",
+    name: "Cute kitten❤️",
+    message: "Work overtime. I'll be back later.",
+    time: "10:02",
+    unread: 0,
+    avatar: "https://placekitten.com/100/100",
+  },
+  {
+    id: "2",
+    name: "NYC basketball group",
+    message: "Cuy: Let's meet at the stadium tonight!",
+    time: "09:36",
+    unread: 0,
+    avatar: "https://via.placeholder.com/100x100.png?text=Group",
+  },
+  {
+    id: "3",
+    name: "Steve",
+    message: "Don't leave after training tonight!",
+    time: "09:20",
+    unread: 5,
+    avatar: "https://via.placeholder.com/100x100.png?text=Steve",
+  },
+  {
+    id: "4",
+    name: "Alvika",
+    message: "I'll pay you a visit tomorrow.",
+    time: "08:55",
+    unread: 1,
+    avatar: "https://via.placeholder.com/100x100.png?text=Alvika",
+  },
+  {
+    id: "5",
+    name: "Purchasing",
+    message: "[Someone@me] Jade: I'll be back Wednesday...",
+    time: "Yesterday",
+    unread: 0,
+    avatar: "https://via.placeholder.com/100x100.png?text=Purchasing",
+  },
+  {
+    id: "6",
+    name: "Mjstyle",
+    message: "You've got credits...",
+    time: "Yesterday",
+    unread: 0,
+    avatar: "https://via.placeholder.com/100x100.png?text=Mjstyle",
+  },
+  {
+    id: "7",
+    name: "Edwards",
+    message: "I've packed and sent it to you.",
+    time: "Yesterday",
+    unread: 0,
+    avatar: "https://via.placeholder.com/100x100.png?text=Edwards",
+  },
+  {
+    id: "8",
+    name: "Notifications",
+    message: "Luckin coffee: I'm back.",
+    time: "Yesterday",
+    unread: 0,
+    avatar: "https://via.placeholder.com/100x100.png?text=Notifications",
+  },
+];
 
-export default function HomeScreen() {
+export default function ChatListScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View className="flex-1 bg-white">
+      {/* Top Bar */}
+      <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-200">
+        <Text className="text-lg font-bold">Chats ({chats.length})</Text>
+        <View className="flex-row items-center space-x-2">
+          <TouchableOpacity>
+            <Text className="text-gray-600 text-2xl">🔍</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* Chat List */}
+      <FlatList
+        data={chats}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity className="flex-row items-center px-4 py-3 border-b border-gray-100">
+            <View className="relative">
+              <Image
+                source={{ uri: item.avatar }}
+                className="w-12 h-12 rounded-full"
+              />
+              {item.unread > 0 && (
+                <View className="absolute -top-1 -right-1 bg-red-500 rounded-full w-5 h-5 items-center justify-center">
+                  <Text className="text-white text-xs">{item.unread}</Text>
+                </View>
+              )}
+            </View>
+            <View className="flex-1 ml-4">
+              <View className="flex-row justify-between">
+                <Text className="font-semibold">{item.name}</Text>
+                <Text className="text-xs text-gray-400">{item.time}</Text>
+              </View>
+              <Text className="text-gray-500 mt-1" numberOfLines={1}>
+                {item.message}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+
+     
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
