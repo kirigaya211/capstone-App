@@ -6,6 +6,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import SearchBar from "@/components/searchBar";
+import {useRouter} from "expo-router";
+
+export default function Index(){
+  const router = useRouter();
+
 // Removed unused import
 
 const chats = [
@@ -75,16 +81,16 @@ const chats = [
   },
 ];
 
-export default function ChatListScreen() {
+
   return (
     <View className="flex-1 bg-white">
       {/* Top Bar */}
       <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-200">
-        <Text className="text-lg font-bold">Chats ({chats.length})</Text>
-        <View className="flex-row items-center space-x-2">
-          <TouchableOpacity>
-            <Text className="text-gray-600 text-2xl">🔍</Text>
-          </TouchableOpacity>
+        {/* <Text className="text-lg font-bold">Chats ({chats.length})</Text> */}
+        <View className="flex-1 mt-5">
+          <SearchBar onPress={()=>router.push("/search")}
+            placeholder="Search for a movie"
+            />
         </View>
       </View>
       {/* Chat List */}
